@@ -10,6 +10,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Diagnostics;
 using System.Text.Json;
+using System.Security.Cryptography.X509Certificates;
+using System.Runtime.InteropServices;
 
 namespace PlannerTest
 {
@@ -17,21 +19,21 @@ namespace PlannerTest
     /// Interaction logic for MainWindow.xaml
     /// </summary>
 
-    //test class
-    public class TestJson
-    {
-        //something about non-nullable and constructor values forcing the question mark, check after
-        public string? LineA { get; set; }
-        public string? LineB { get; set; }
-    }
     public partial class MainWindow : Window
     {
+        DayData myTestItem;
         public MainWindow()
         {
             InitializeComponent();
-
-
+            myTestItem = new DayData { LineA = "Hello", LineB = "World" };
         }
+
+        /*
+        public static void Main()
+        {
+            
+        }
+        */
 
         private void BtnAddName_Click(object sender, RoutedEventArgs e)
         {
@@ -45,17 +47,12 @@ namespace PlannerTest
 
         private void BtnTestPrint_Click(object sender, RoutedEventArgs e)
         {
-            //look into accessing variables and where to put them for wpf
-            var myTest = new TestJson
-            {
-                LineA = "Hello",
-                LineB = "World",
-            };
-            string jsonString = JsonSerializer.Serialize(myTest);
+            
+            string jsonString = JsonSerializer.Serialize(myTestItem);
             Trace.WriteLine(jsonString);
-            myTest.LineA = txtA.Text;
-            myTest.LineB = txtB.Text;
-            jsonString = JsonSerializer.Serialize(myTest);
+            myTestItem.LineA = txtA.Text;
+            myTestItem.LineB = txtB.Text;
+            jsonString = JsonSerializer.Serialize(myTestItem);
             Trace.WriteLine(jsonString);
         }
     }
